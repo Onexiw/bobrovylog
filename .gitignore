@@ -1,0 +1,29 @@
+# Секреты и локальные файлы
+_local/
+*.pem
+id_rsa
+id_ed25519
+id_ed25519_*
+access.json
+
+# Бэкапы и мусор
+*.bak
+*.zip
+*.tar.gz
+.DS_Store
+Thumbs.db
+*.log
+
+# Кэш, бэкапы и служебные каталоги Битрикса (не храним в git)
+site/bitrix/cache/
+site/bitrix/managed_cache/
+site/bitrix/stack_cache/
+site/bitrix/html_pages/
+site/bitrix/backup/
+site/bitrix/tmp/
+site/upload/resize_cache/
+site/upload/tmp/
+site/upload/*.tmp
+
+# Медиа-библиотека сайта: тысячи картинок, в git не нужны
+site/upload/
