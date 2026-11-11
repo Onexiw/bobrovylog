@@ -32,6 +32,9 @@ bobrovylog/
 - [x] Поднят staging-контур: `/home/bitrix/stage`, БД `sitemanager_stage`, vhost `stage.bobrovylog.ru` → `docs/03-staging.md`
 - [ ] Создана DNS-запись `stage.bobrovylog.ru` → 62.213.48.144 (панель data-pool)
 - [x] Устранены утечки: `mx_log.txt`, `.bak`-файлы шаблона, `web.config`
+- [x] PHP обновлён: **7.4 → 8.3.8** на staging и на проде (docs/05-php8-миграция.md)
+- [ ] Ядро Битрикса 23.300 → актуальное (нужен доступ к обновлениям 1С-Битрикс)
+- [ ] Композитный кэш включён (нужен доступ в админку)
 
 ## Правила работы
 
