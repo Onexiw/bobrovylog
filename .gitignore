@@ -54,4 +54,12 @@ site/bitrix/tools/
 # Медиа-контент сайта (в git не место: десятки-сотни МБ картинок)
 site/images/
 site/karta/
+!site/karta/
+site/karta/*
+!site/karta/animation/
+site/karta/animation/*
+!site/karta/animation/index.html
+!site/karta/animation/assets/
+site/karta/animation/assets/*
+!site/karta/animation/assets/map-base.jpg
 site/karta-2/
