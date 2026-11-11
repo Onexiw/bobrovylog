@@ -58,7 +58,7 @@ site/karta/
 site/karta/*
 !site/karta/animation/
 site/karta/animation/*
-!site/karta/animation/index.html
+!site/karta/animation/index.php
 !site/karta/animation/assets/
 site/karta/animation/assets/*
 !site/karta/animation/assets/map-base.jpg
