@@ -1,0 +1,682 @@
+<?
+if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
+/** @var CBitrixComponent $this */
+/** @var array $arParams */
+/** @var array $arResult */
+/** @var string $componentPath */
+/** @var string $componentName */
+/** @var string $componentTemplate */
+/** @global CDatabase $DB */
+/** @global CUser $USER */
+/** @global CMain $APPLICATION */
+
+/** @global CIntranetToolbar $INTRANET_TOOLBAR */
+global $INTRANET_TOOLBAR;
+
+use Bitrix\Main\Context,
+	Bitrix\Main\Type\DateTime,
+	Bitrix\Main\Loader,
+    Bitrix\Main\Entity,
+	Bitrix\Iblock;
+
+
+/*************************************************************************
+	Work with module
+*************************************************************************/
+$module_id = "mibok.rasp";
+if(!IsModuleInstalled($module_id))
+    return;
+$loadRes = Loader::includeSharewareModule($module_id);
+if($loadRes == 0 || $loadRes == 3)
+    return;
+use Mibok\Rasp\CounterTimeTable;
+
+$arOption = array("period_begin", "period_end", "rec_timetable", "prop_color");
+
+CJSCore::Init(array("jquery"));
+
+
+CPageOption::SetOptionString("main", "nav_page_in_session", "N");
+
+if(!isset($arParams["CACHE_TIME"]))
+	$arParams["CACHE_TIME"] = 36000000;
+
+$arParams["IBLOCK_TYPE"] = trim($arParams["IBLOCK_TYPE"]);
+if(strlen($arParams["IBLOCK_TYPE"])<=0)
+	$arParams["IBLOCK_TYPE"] = "news";
+$arParams["IBLOCK_ID"] = trim($arParams["IBLOCK_ID"]);
+$arParams["PARENT_SECTION"] = intval($arParams["PARENT_SECTION"]);
+$arParams["INCLUDE_SUBSECTIONS"] = $arParams["INCLUDE_SUBSECTIONS"]!="N";
+//$arParams["SET_LAST_MODIFIED"] = $arParams["SET_LAST_MODIFIED"]==="Y";
+
+$arParams["SORT_BY1"] = "SORT";
+$arParams["SORT_BY2"] = "ACTIVE";
+$arParams["SORT_ORDER1"] = "ASC";
+$arParams["SORT_ORDER2"] = "ASC";
+
+
+if(strlen($arParams["FILTER_NAME"])<=0 || !preg_match("/^[A-Za-z_][A-Za-z01-9_]*$/", $arParams["FILTER_NAME"]))
+{
+	$arrFilter = array();
+}
+else
+{
+	$arrFilter = $GLOBALS[$arParams["FILTER_NAME"]];
+	if(!is_array($arrFilter))
+		$arrFilter = array();
+}
+
+//$arParams["CHECK_DATES"] = $arParams["CHECK_DATES"]!="N";
+
+if(!is_array($arParams["FIELD_CODE"]))
+	$arParams["FIELD_CODE"] = array();
+if(!is_array($arParams["PROPERTY_CODE"]))
+	$arParams["PROPERTY_CODE"] = array();
+if(!is_array($arParams["FIELD_CODE_MODAL"]))
+	$arParams["FIELD_CODE_MODAL"] = array();
+if(!is_array($arParams["PROPERTY_CODE_MODAL"]))
+	$arParams["PROPERTY_CODE_MODAL"] = array();
+
+//$arParamField = array_unique(array_merge(array($arParams["LIST_SETTINGS_NAME"], $arParams["LIST_SETTINGS_PROP1"],$arParams["LIST_SETTINGS_PROP2"],$arParams["LIST_SETTINGS_MODAL_NAME"]),$arParams["LIST_SETTINGS_MODAL_FIELD_CODE"], $arParams["LIST_SETTINGS_MODAL_PROPERTY_CODE"]));
+$arDataAjax = array_unique(array_merge(array($arParams["LIST_SETTINGS_MODAL_NAME"]),$arParams["LIST_SETTINGS_MODAL_FIELD_CODE"], $arParams["LIST_SETTINGS_MODAL_PROPERTY_CODE"], array('PROPERTY_COLOR', 'PROPERTY_PERIOD', 'ACTIVE_FROM', 'ACTIVE_TO')));
+$arParamField = array_unique(array($arParams["LIST_SETTINGS_NAME"], $arParams["LIST_SETTINGS_PROP1"],$arParams["LIST_SETTINGS_PROP2"], 'PROPERTY_COLOR', 'PROPERTY_PERIOD'));
+$arParams['MODAL_DATA'] = array($arParams["LIST_SETTINGS_NAME"], $arParams["LIST_SETTINGS_PROP1"],$arParams["LIST_SETTINGS_PROP2"]);
+
+foreach ($arParamField as $param)
+{
+    if(strpos($param, 'PROPERTY_') === false)
+        $arParams["FIELD_CODE"][] = $param;
+    else
+        $arParams["PROPERTY_CODE"][] = $param;
+}
+foreach ($arDataAjax as $param)
+{
+    if(strpos($param, 'PROPERTY_') === false)
+        $arParams["FIELD_CODE_MODAL"][] = $param;
+    else
+        $arParams["PROPERTY_CODE_MODAL"][] = str_replace('PROPERTY_','',$param);
+}
+
+//p($arDataAjax);
+
+if(!is_array($arParams["FIELD_CODE"]))
+	$arParams["FIELD_CODE"] = array();
+foreach($arParams["FIELD_CODE"] as $key=>$val)
+	if(!$val)
+		unset($arParams["FIELD_CODE"][$key]);
+
+if(!is_array($arParams["PROPERTY_CODE"]))
+	$arParams["PROPERTY_CODE"] = array();
+foreach($arParams["PROPERTY_CODE"] as $key=>$val)
+	if($val==="")
+		unset($arParams["PROPERTY_CODE"][$key]);
+
+$arParams["DETAIL_URL"]=trim($arParams["DETAIL_URL"]);
+/*
+$arParams["NEWS_COUNT"] = intval($arParams["NEWS_COUNT"]);
+if($arParams["NEWS_COUNT"]<=0)
+	$arParams["NEWS_COUNT"] = 20;*/
+
+$arParams["CACHE_FILTER"] = $arParams["CACHE_FILTER"]=="Y";
+if(!$arParams["CACHE_FILTER"] && count($arrFilter)>0)
+	$arParams["CACHE_TIME"] = 0;
+
+
+$arParams["DISPLAY_TOP_PAGER"] = $arParams["DISPLAY_TOP_PAGER"]=="Y";
+$arParams["DISPLAY_BOTTOM_PAGER"] = $arParams["DISPLAY_BOTTOM_PAGER"]!="N";
+$arParams["PAGER_TITLE"] = trim($arParams["PAGER_TITLE"]);
+$arParams["PAGER_SHOW_ALWAYS"] = $arParams["PAGER_SHOW_ALWAYS"]=="Y";
+$arParams["PAGER_TEMPLATE"] = trim($arParams["PAGER_TEMPLATE"]);
+$arParams["PAGER_DESC_NUMBERING"] = $arParams["PAGER_DESC_NUMBERING"]=="Y";
+$arParams["PAGER_DESC_NUMBERING_CACHE_TIME"] = intval($arParams["PAGER_DESC_NUMBERING_CACHE_TIME"]);
+$arParams["PAGER_SHOW_ALL"] = $arParams["PAGER_SHOW_ALL"]=="Y";
+$arParams["CHECK_PERMISSIONS"] = $arParams["CHECK_PERMISSIONS"]!="N";
+
+if (empty($arParams["PAGER_PARAMS_NAME"]) || !preg_match("/^[A-Za-z_][A-Za-z01-9_]*$/", $arParams["PAGER_PARAMS_NAME"]))
+{
+	$pagerParameters = array();
+}
+else
+{
+	$pagerParameters = $GLOBALS[$arParams["PAGER_PARAMS_NAME"]];
+	if (!is_array($pagerParameters))
+		$pagerParameters = array();
+}
+
+$arParams["USE_PERMISSIONS"] = $arParams["USE_PERMISSIONS"]=="Y";
+if(!is_array($arParams["GROUP_PERMISSIONS"]))
+	$arParams["GROUP_PERMISSIONS"] = array(1);
+
+$bUSER_HAVE_ACCESS = !$arParams["USE_PERMISSIONS"];
+if($arParams["USE_PERMISSIONS"] && isset($GLOBALS["USER"]) && is_object($GLOBALS["USER"]))
+{
+	$arUserGroupArray = $USER->GetUserGroupArray();
+	foreach($arParams["GROUP_PERMISSIONS"] as $PERM)
+	{
+		if(in_array($PERM, $arUserGroupArray))
+		{
+			$bUSER_HAVE_ACCESS = true;
+			break;
+		}
+	}
+}
+
+if($this->startResultCache(false, array(($arParams["CACHE_GROUPS"]==="N"? false: $USER->GetGroups()), $bUSER_HAVE_ACCESS, $arNavigation, $arrFilter, $pagerParameters)))
+{
+	if(!Loader::includeModule("iblock"))
+	{
+		$this->abortResultCache();
+		ShowError(GetMessage("IBLOCK_MODULE_NOT_INSTALLED"));
+		return;
+	}
+	if(is_numeric($arParams["IBLOCK_ID"]))
+	{
+		$rsIBlock = CIBlock::GetList(array(), array(
+			"ACTIVE" => "Y",
+			"ID" => $arParams["IBLOCK_ID"],
+		));
+	}
+	else
+	{
+		$rsIBlock = CIBlock::GetList(array(), array(
+			"ACTIVE" => "Y",
+			"CODE" => $arParams["IBLOCK_ID"],
+			"SITE_ID" => SITE_ID,
+		));
+	}
+	if($arResult = $rsIBlock->GetNext())
+	{
+		$arResult["USER_HAVE_ACCESS"] = $bUSER_HAVE_ACCESS;
+		//SELECT
+		$arSelect = array_merge($arParams["FIELD_CODE"], array(
+			"ID",
+			"IBLOCK_ID",
+			//"IBLOCK_SECTION_ID",
+			"NAME",
+			"ACTIVE_FROM",
+			"ACTIVE_TO",
+			/*"TIMESTAMP_X",*/
+			"DETAIL_PAGE_URL",
+			/*"LIST_PAGE_URL",
+			"DETAIL_TEXT",
+			"DETAIL_TEXT_TYPE",
+			"PREVIEW_TEXT",
+			"PREVIEW_TEXT_TYPE",
+			"PREVIEW_PICTURE",*/
+		));
+		$arFilterProp = array();
+		$bGetProperty = count($arParams["PROPERTY_CODE"])>0;
+		if($bGetProperty)
+		{
+			$arSelect[]="PROPERTY_*";
+			foreach($arParams["PROPERTY_CODE"] as $valProp)
+			{
+				$arFilterProp[] = str_replace('PROPERTY_', '', $valProp);
+			}
+		}
+        $arFilterProp[] = 'LIMIT';
+		//WHERE
+		$arFilter = array (
+			"IBLOCK_ID" => $arResult["ID"],
+			"IBLOCK_LID" => SITE_ID,
+			"ACTIVE" => "Y",
+			"CHECK_PERMISSIONS" => $arParams['CHECK_PERMISSIONS'] ? "Y" : "N",
+		);
+
+//		if($arParams["CHECK_DATES"])
+//			$arFilter["ACTIVE_DATE"] = "Y";
+
+		$arParams["PARENT_SECTION"] = CIBlockFindTools::GetSectionID(
+			$arParams["PARENT_SECTION"],
+			$arParams["PARENT_SECTION_CODE"],
+			array(
+				"GLOBAL_ACTIVE" => "Y",
+				"IBLOCK_ID" => $arResult["ID"],
+			)
+		);
+
+		if($arParams["PARENT_SECTION"]>0)
+		{
+			$arFilter["SECTION_ID"] = $arParams["PARENT_SECTION"];
+			if($arParams["INCLUDE_SUBSECTIONS"])
+				$arFilter["INCLUDE_SUBSECTIONS"] = "Y";
+
+			$arResult["SECTION"]= array("PATH" => array());
+			$rsPath = CIBlockSection::GetNavChain($arResult["ID"], $arParams["PARENT_SECTION"]);
+			$rsPath->SetUrlTemplates("", $arParams["SECTION_URL"], $arParams["IBLOCK_URL"]);
+			while($arPath = $rsPath->GetNext())
+			{
+				$ipropValues = new Iblock\InheritedProperty\SectionValues($arParams["IBLOCK_ID"], $arPath["ID"]);
+				$arPath["IPROPERTY_VALUES"] = $ipropValues->getValues();
+				$arResult["SECTION"]["PATH"][] = $arPath;
+			}
+
+			$ipropValues = new Iblock\InheritedProperty\SectionValues($arResult["ID"], $arParams["PARENT_SECTION"]);
+			$arResult["IPROPERTY_VALUES"] = $ipropValues->getValues();
+		}
+		else
+		{
+			$arResult["SECTION"]= false;
+		}
+		//ORDER BY
+		$arSort = array(
+			$arParams["SORT_BY1"]=>$arParams["SORT_ORDER1"],
+			$arParams["SORT_BY2"]=>$arParams["SORT_ORDER2"],
+		);
+        echo "<pre style='display:none;'>";
+        print_r($arSort);
+        echo "</pre>";
+//		if(!array_key_exists("ID", $arSort))
+//			$arSort["ID"] = "DESC";
+
+		$obParser = new CTextParser;
+		$arResult["ITEMS"] = array();
+		$arResult["ELEMENTS"] = array();
+		$rsElement = CIBlockElement::GetList($arSort, array_merge($arFilter, $arrFilter), false, false, $arSelect);
+		$rsElement->SetUrlTemplates($arParams["DETAIL_URL"], "", $arParams["IBLOCK_URL"]);
+		while($obElement = $rsElement->GetNextElement())
+		{
+			$arItem = $obElement->GetFields();
+			$arButtons = CIBlock::GetPanelButtons(
+				$arItem["IBLOCK_ID"],
+				$arItem["ID"],
+				0,
+				array("SECTION_BUTTONS"=>false, "SESSID"=>false)
+			);
+			$arItem["EDIT_LINK"] = $arButtons["edit"]["edit_element"]["ACTION_URL"];
+			$arItem["DELETE_LINK"] = $arButtons["edit"]["delete_element"]["ACTION_URL"];
+
+			if($arParams["PREVIEW_TRUNCATE_LEN"] > 0)
+				$arItem["PREVIEW_TEXT"] = $obParser->html_cut($arItem["PREVIEW_TEXT"], $arParams["PREVIEW_TRUNCATE_LEN"]);
+
+			if(strlen($arItem["ACTIVE_FROM"])>0)
+				$arItem["DISPLAY_ACTIVE_FROM"] = CIBlockFormatProperties::DateFormat($arParams["ACTIVE_DATE_FORMAT"], MakeTimeStamp($arItem["ACTIVE_FROM"], CSite::GetDateFormat()));
+			else
+				$arItem["DISPLAY_ACTIVE_FROM"] = "";
+
+			$ipropValues = new Iblock\InheritedProperty\ElementValues($arItem["IBLOCK_ID"], $arItem["ID"]);
+			$arItem["IPROPERTY_VALUES"] = $ipropValues->getValues();
+
+			Iblock\Component\Tools::getFieldImageData(
+				$arItem,
+				array('PREVIEW_PICTURE', 'DETAIL_PICTURE'),
+				Iblock\Component\Tools::IPROPERTY_ENTITY_ELEMENT,
+				'IPROPERTY_VALUES'
+			);
+
+			$arItem["FIELDS"] = array();
+			foreach($arParams["FIELD_CODE"] as $code)
+				if(array_key_exists($code, $arItem))
+					$arItem["FIELDS"][$code] = $arItem[$code];
+
+			if($bGetProperty)
+				$arAllProp = $obElement->GetProperties();
+            
+			/*foreach($arFilterProp as $prop)
+			{
+				$arItem["PROPERTIES"][$prop] = $arAllProp[$prop];
+			}*/
+            $arItem["PROPERTIES"] = $arAllProp;
+			$arItem["DISPLAY_PROPERTIES"]=array();
+			foreach($arFilterProp as $pid)
+			{
+				//$prop = &$arItem["PROPERTIES"][$pid];
+				$prop = $arItem["PROPERTIES"][$pid];
+				if(
+					(is_array($prop["VALUE"]) && count($prop["VALUE"])>0)
+					|| (!is_array($prop["VALUE"]) && strlen($prop["VALUE"])>0)
+				)
+				{
+					$arItem["DISPLAY_PROPERTIES"][$pid] = CIBlockFormatProperties::GetDisplayValue($arItem, $prop, "news_out");
+				}
+			}
+            
+            
+			/*if(isset($arItem['DISPLAY_PROPERTIES']['TEACHER']))
+			{
+				$iblockId = 0;
+				$name = '';
+				foreach($arItem['DISPLAY_PROPERTIES']['TEACHER']['LINK_ELEMENT_VALUE'] as $arLink)
+				{
+					$iblockId = $arLink['IBLOCK_ID'];
+					$name = $arLink['NAME'];
+					break;
+				}
+				$dbProp = CIBlockElement::GetProperty($iblockId, $arItem['DISPLAY_PROPERTIES']['TEACHER']['VALUE'], array("sort" => "asc"), array());
+				if($dbProp->SelectedRowsCount() > 0)
+				{
+					while ($arProp = $dbProp->GetNext())
+					{
+						if($arProp['CODE'] == 'SURNAME')
+							$arItem['DISPLAY_PROPERTIES']['TEACHER']['SURNAME'] = $arProp['VALUE'];
+						elseif($arProp['CODE'] == 'LASTNAME')
+							$arItem['DISPLAY_PROPERTIES']['TEACHER']['LASTNAME'] = $arProp['VALUE'];
+
+					}
+					$arItem['DISPLAY_PROPERTIES']['TEACHER']['FULL'] = $arItem['DISPLAY_PROPERTIES']['TEACHER']['SURNAME'].' '.mb_substr($name,0,1).'.';
+					$arItem['DISPLAY_PROPERTIES']['TEACHER']['FULL'] .= $arItem['DISPLAY_PROPERTIES']['TEACHER']['LASTNAME'] ? ' '.mb_substr($arItem['DISPLAY_PROPERTIES']['TEACHER']['LASTNAME'],0,1) : '';
+				}
+			}*/
+			/*if ($arParams["SET_LAST_MODIFIED"])
+			{
+				$time = DateTime::createFromUserTime($arItem["TIMESTAMP_X"]);
+				if (
+					!isset($arResult["ITEMS_TIMESTAMP_X"])
+					|| $time->getTimestamp() > $arResult["ITEMS_TIMESTAMP_X"]->getTimestamp()
+				)
+					$arResult["ITEMS_TIMESTAMP_X"] = $time;
+			}*/
+			$arResult["ITEMS"][$arItem["ID"]] = $arItem;
+			$arResult["ELEMENTS"][] = $arItem["ID"];
+		}
+		foreach($arOption as $option)
+			$arResult['OPTIONS'][$option] =  COption::GetOptionString($module_id, $option);
+		
+        if(!empty($arrFilter['period_begin']) && !empty($arrFilter['period_end']))
+        {
+            $arResult['OPTIONS']['period_begin'] = (strtotime($arrFilter['period_begin']) - strtotime(date('d.m.Y'))) / (60*60*24);
+            $arResult['OPTIONS']['period_end'] = (strtotime($arrFilter['period_end']) - strtotime(date('d.m.Y'))) / (60*60*24);
+        }
+		
+		if(/*!empty($arResult['OPTIONS']['period_begin']) &&*/ !empty($arResult['OPTIONS']['period_end']))
+		{
+			//$periodSTMP = strtotime($arResult['OPTIONS']['period_begin']);
+			$periodSTMP = time();
+            $periodFormat = date('d.m.Y H:i:s', $periodSTMP);
+            if ($arrPars = ParseDateTime($periodFormat, "DD.MM.YYYY HH:MI:SS"))
+            {
+                $periodSTMP = MakeTimeStamp($arrPars['DD'].'.'.$arrPars['MM'].'.'.$arrPars['YYYY'], "DD.MM.YYYY");
+            }
+			$periodSec = 86400;
+			for($i = $arResult['OPTIONS']['period_begin']; $i <= (intval($arResult['OPTIONS']['period_end'])); $i++)
+			{
+				$val = $periodSTMP + ($i * $periodSec);
+				$arDay[$val] = false;
+				$arDayName[$val] = date('D', $val);
+				//$arDayWeek[$val] = date('W', $val);
+			}
+		}
+		if(!empty($arResult['ITEMS']))
+		{
+
+			$arTable = array();
+			$i = 0;
+			foreach($arResult['ITEMS'] as $key => $arItem)
+			{
+				$tmp_b = MakeTimeStamp($arItem['ACTIVE_FROM'], "DD.MM.YYYY HH:MI:SS");
+				$tmp_e = MakeTimeStamp($arItem['ACTIVE_TO'], "DD.MM.YYYY HH:MI:SS");
+                
+                $arrPars = array();
+                if ($arrPars = ParseDateTime($arItem['ACTIVE_FROM'], "DD.MM.YYYY HH:MI:SS"))
+                {
+                    $checkTmp = MakeTimeStamp($arrPars['DD'].'.'.$arrPars['MM'].'.'.$arrPars['YYYY'], "DD.MM.YYYY");
+                }
+
+				if(isset($arItem['DISPLAY_PROPERTIES']['PERIOD'])) 
+				{
+                    
+					$itemWeek = date('D', $tmp_b);
+					foreach($arDayName as $tmstp => $val)
+					{
+						$countDay = (abs($tmstp - $checkTmp)/ $periodSec);
+						$week = 10;
+						switch ($arItem['DISPLAY_PROPERTIES']['PERIOD']['VALUE_XML_ID'])
+						{
+							case 'week-1': $week = 1; break;
+							case 'week-2': $week = 2; break;
+							case 'week-4': $week = 4; break;
+							default:       $week = 1; break;
+						}
+						if($itemWeek == $val && MibokRasp::isCellTimetable($countDay, $week))
+						{
+                            $arDay[$tmstp] = true;
+							MibokRasp::GetNewTable($i, $arItem, $arTable, $tmstp, $arParams['FIELD_CODE'], $arParams['PROPERTY_CODE'], $arResult['OPTIONS']['prop_color']);
+                            continue;
+						}                
+					}
+				}
+				else
+				{
+                     //echo $tmp_b.'<br>';
+                     //echo date('d.m.Y',$tmp_b).'<br>';
+                     $new_tmp_b = MakeTimeStamp(date('d.m.Y',$tmp_b), "DD.MM.YYYY");
+//                    $arDay[$tmp_b] = true;
+//                    MibokRasp::GetNewTable($i, $arItem, $arTable, $tmp_b, $arParams['FIELD_CODE'], $arParams['PROPERTY_CODE']);
+                    /*$arDay[$new_tmp_b] = true;
+                    MibokRasp::GetNewTable($i, $arItem, $arTable, $new_tmp_b, $arParams['FIELD_CODE'], $arParams['PROPERTY_CODE']);*/
+                    foreach($arDayName as $tmstp => $val)
+                    {
+                        if($tmstp == $checkTmp)
+                        {
+                            $arDay[$tmstp] = true;
+                            MibokRasp::GetNewTable($i, $arItem, $arTable, $tmstp, $arParams['FIELD_CODE'], $arParams['PROPERTY_CODE']);
+                            break;
+                        }  
+                    }
+				}
+                $arResult['ITEMS'][$key]['COUNT_LIMIT'] = $arItem['PROPERTIES']['LIMIT']['VALUE'];
+			}
+            $countLessons = 0;
+            ksort($arTable);
+            foreach($arTable as $month => &$arTMonth)
+            {
+                ksort($arTMonth);
+                foreach($arTMonth as $day => &$arTDay)
+                {
+                    $countTemp = 0;
+ 
+                    //ksort($arTDay);
+                    foreach($arTDay as $arHour)
+                        $countTemp += count($arHour);
+                    if($countTemp > $countLessons)
+                        $countLessons = $countTemp;
+                }
+            }
+            
+            $bEmpty = false;
+            $keyEmpty = 0;
+            $arInfoDay = array();
+            $arEmptyDay = array();
+            $counter = 0;
+            //p($arDay);
+            foreach($arDay as $tmp => $val)
+            {
+                if($val)
+                {
+                    $bEmpty = false;
+
+                    //$arInfoDay[$counter]['tmp'] = $tmp;
+                    if(date('j') == date('j', $tmp) && date('n') == date('n', $tmp))
+                        $arInfoDay[] = array('tmp' => $tmp, 'class' => 'day-current');
+                    /*elseif(date('j') > date('j', $tmp) && date('n') >= date('n', $tmp) && date('Y') >= date('Y', $tmp))
+                        $arInfoDay[$counter]['class'] = 'day-past';
+                    elseif(date('j') < date('j', $tmp) && date('n') > date('n', $tmp) && date('Y') > date('Y', $tmp))
+                        $arInfoDay[$counter]['class'] = 'day-past';*/
+                    elseif(date('j') > date('j', $tmp) && date('n') >= date('n', $tmp) && date('Y') >= date('Y', $tmp))
+                        $arInfoDay[] = array('tmp' => $tmp, 'class' => 'day-past');
+                     elseif(date('j') < date('j', $tmp) && date('n') > date('n', $tmp) && date('Y') > date('Y', $tmp))
+                        $arInfoDay[] = array('tmp' => $tmp, 'class' => 'day-past');
+                    elseif(date('n') < date('n', $tmp))
+                        $arInfoDay[] = array('tmp' => $tmp, 'class' => 'day-future');
+                    else
+                        $arInfoDay[] = array('tmp' => $tmp, 'class' => 'day-future');
+                }
+                else
+                {
+                    /*if(!$bEmpty)
+                    {
+                        $bEmpty = true;
+                        $arInfoDay[$counter]['tmp'] = $tmp;
+                        $arInfoDay[$counter]['class'] = 'day-no';
+                    }
+                    else
+                    {
+                        $arInfoDay[$counter]['tmp'] = $tmp;
+                        $arInfoDay[$counter]['class'] = 'day-no';
+                        //continue;
+                    }*/
+                    $arInfoDay[] = array('tmp' => $tmp, 'class' => 'day-no');
+                }
+                //$counter++;
+            }
+            
+            foreach($arInfoDay as $key => $item)
+            {
+                if($item['class'] != 'day-no')
+                {
+                    if(isset($arTable[date('n',$item['tmp'])][date('j',$item['tmp'])]))
+                    {
+                       foreach($arTable[date('n',$item['tmp'])][date('j',$item['tmp'])] as &$arHour)
+                       {
+                            foreach($arHour as &$arLesson)
+                            {
+                                $arLesson['CAN_RECORD'] = false;
+                                $arLesson['RECORD_INFO'] = false;
+                                if(isset($arResult['OPTIONS']['rec_timetable']) && $arResult['OPTIONS']['rec_timetable'] =='Y' && class_exists('Mibok\Rasp\CounterTimeTable'))
+                                {
+                                    $raspLimit = $arResult['ITEMS'][$arLesson['ID']]['COUNT_LIMIT'];
+                                    $arLesson['IBLOCK_LIMIT'] = $raspLimit;
+                                    $arLesson['TABLE_LIMIT'] = 0;
+                                    if(empty($raspLimit) || $raspLimit == 0)
+                                        $arLesson['CAN_RECORD'] = true;
+                                    elseif($raspLimit == '-1')
+                                        $arLesson['CAN_RECORD'] = false;
+                                    elseif($raspLimit > 0)
+                                    {
+                                        $resCounter = CounterTimeTable::getList(array(
+                                            'select' => array('CNT'),
+                                            'filter' => array(
+                                                "=ELEMENT_ID" => $arLesson['ID'],
+                                                "=LESSON_BEGIN" => $arLesson['BEGIN'],
+                                                "=LESSON_END" => $arLesson['END'],
+                                                "=LESSON_DAY" => $item['tmp'],
+                                            ),
+                                            'runtime' => array(
+                                                new Entity\ExpressionField('CNT', 'COUNT(*)')
+                                            )
+                                        ))->fetch();
+                                        if($resCounter['CNT'] < $raspLimit)
+                                            $arLesson['CAN_RECORD'] = true;
+                                        else
+                                        {
+                                            $arLesson['CAN_RECORD'] = false;
+                                            $arLesson['RECORD_INFO'] = true;
+                                        }
+                                        $arLesson['IBLOCK_LIMIT'] = $raspLimit;
+                                        $arLesson['TABLE_LIMIT'] = $resCounter['CNT'];
+                                    }
+                                    else
+                                    {
+                                        $arLesson['CAN_RECORD'] = true;
+                                    }
+                                    
+                                    //p($arLesson);
+                                }
+                            }
+                       }
+                    }
+                }
+            }
+            
+
+//            foreach($arInfoDay as $key => $item)
+//{
+//    p(date('d.m.Y H:i:s', $item['tmp']));
+//    p($item['class']);
+//}
+            $arPeriodDayNo = $arInfoDay;
+            foreach($arInfoDay as $key => $item)
+            {
+                if($item['class'] == 'day-no')
+                {
+                    if((isset($arInfoDay[$key-1]) && $arInfoDay[$key-1]['class'] == 'day-no' ) && (isset($arInfoDay[$key+1]) && $arInfoDay[$key+1]['class'] == 'day-no' )) 
+                       unset($arPeriodDayNo[$key]);
+                }
+            }
+			$arResult['DAY'] = $arDay;
+			$arResult['INFO_DAY'] = $arInfoDay;
+			$arResult['PERIOD_DAY_NO'] = $arPeriodDayNo;
+			//$arResult['HOUR'] = $arHour;
+			$arResult['TABLE'] = $arTable;
+			$arResult['CURRENT'] = date('j.n');
+			$arResult['COUNT_LESSONS'] = $countLessons;
+		}
+		
+
+		$this->setResultCacheKeys(array(
+			"ID",
+			"IBLOCK_TYPE_ID",
+			"LIST_PAGE_URL",
+			//"NAV_CACHED_DATA",
+			"NAME",
+			"SECTION",
+			"ELEMENTS",
+			"IPROPERTY_VALUES",
+			//"ITEMS_TIMESTAMP_X",
+		));
+		$this->includeComponentTemplate();
+	}
+	else
+	{
+		$this->abortResultCache();
+		Iblock\Component\Tools::process404(
+			trim($arParams["MESSAGE_404"]) ?: GetMessage("T_NEWS_NEWS_NA")
+			,true
+			,$arParams["SET_STATUS_404"] === "Y"
+			,$arParams["SHOW_404"] === "Y"
+			,$arParams["FILE_404"]
+		);
+	}
+}
+
+if(isset($arResult["ID"]))
+{
+	$arTitleOptions = null;
+	if($USER->IsAuthorized())
+	{
+		if(
+			$APPLICATION->GetShowIncludeAreas()
+			|| (is_object($GLOBALS["INTRANET_TOOLBAR"]) && $arParams["INTRANET_TOOLBAR"]!=="N")
+			|| $arParams["SET_TITLE"]
+		)
+		{
+			if(Loader::includeModule("iblock"))
+			{
+				$arButtons = CIBlock::GetPanelButtons(
+					$arResult["ID"],
+					0,
+					$arParams["PARENT_SECTION"],
+					array("SECTION_BUTTONS"=>false)
+				);
+
+				if($APPLICATION->GetShowIncludeAreas())
+					$this->addIncludeAreaIcons(CIBlock::GetComponentMenu($APPLICATION->GetPublicShowMode(), $arButtons));
+
+				if(
+					is_array($arButtons["intranet"])
+					&& is_object($INTRANET_TOOLBAR)
+					&& $arParams["INTRANET_TOOLBAR"]!=="N"
+				)
+				{
+					$APPLICATION->AddHeadScript('/bitrix/js/main/utils.js');
+					foreach($arButtons["intranet"] as $arButton)
+						$INTRANET_TOOLBAR->AddButton($arButton);
+				}
+
+				if($arParams["SET_TITLE"])
+				{
+					$arTitleOptions = array(
+						'ADMIN_EDIT_LINK' => $arButtons["submenu"]["edit_iblock"]["ACTION"],
+						'PUBLIC_EDIT_LINK' => "",
+						'COMPONENT_NAME' => $this->getName(),
+					);
+				}
+			}
+		}
+	}
+
+	$this->setTemplateCachedData($arResult["NAV_CACHED_DATA"]);
+
+
+	return $arResult["ELEMENTS"];
+}

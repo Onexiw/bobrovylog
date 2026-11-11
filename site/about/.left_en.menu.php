@@ -1,0 +1,73 @@
+<?
+$aMenuLinks = Array(
+	Array(
+		"Mission", 
+		"mission/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"History", 
+		"history/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+/*
+	Array(
+		"Awards", 
+		"awards/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+*/
+	Array(
+		"Security", 
+		"bezopasnost/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+/*
+	Array(
+		"Вакансии", 
+		"jobs/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+*/
+	Array(
+		"Contacts", 
+		"contacts/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Webcams", 
+		"webcam/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+/*
+	Array(
+		"Конкурсы", 
+		"konkursi/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Закупки", 
+		"tenders/", 
+		Array(), 
+		Array(), 
+		"" 
+	)
+*/
+);
+?>

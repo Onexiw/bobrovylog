@@ -1,0 +1,1 @@
+<?= file_get_contents($_SERVER["DOCUMENT_ROOT"]."/temper/degree.txt"); ?>&#176;

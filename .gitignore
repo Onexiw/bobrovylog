@@ -4,7 +4,10 @@ _local/
 id_rsa
 id_ed25519
 id_ed25519_*
+*_ed25519
+*_ed25519.pub
 access.json
+manifest-прода.txt
 
 # Бэкапы и мусор
 *.bak
@@ -14,16 +17,37 @@ access.json
 Thumbs.db
 *.log
 
-# Кэш, бэкапы и служебные каталоги Битрикса (не храним в git)
+# Секреты Битрикса (доступы к БД и почте)
+site/bitrix/.settings.php
+site/bitrix/.settings_extra.php
+site/bitrix/php_interface/dbconn.php
+
+# Кэш, бэкапы и служебные каталоги Битрикса
 site/bitrix/cache/
 site/bitrix/managed_cache/
 site/bitrix/stack_cache/
+site/bitrix/_cache/
 site/bitrix/html_pages/
 site/bitrix/backup/
 site/bitrix/tmp/
+site/bitrix/updates/
+site/upload/
 site/upload/resize_cache/
 site/upload/tmp/
-site/upload/*.tmp
 
-# Медиа-библиотека сайта: тысячи картинок, в git не нужны
-site/upload/
+# Ядро Битрикса — обновляется штатным updater, в git не версионируем
+site/bitrix/modules/
+site/bitrix/js/
+site/bitrix/images/
+site/bitrix/components/bitrix/
+
+# Vendor-контент Битрикса (мастера, блоки, шрифты) — не наш код
+site/bitrix/wizards/
+site/bitrix/blocks/
+site/bitrix/fonts/
+site/bitrix/tools/
+
+# Медиа-контент сайта (в git не место: десятки-сотни МБ картинок)
+site/images/
+site/karta/
+site/karta-2/

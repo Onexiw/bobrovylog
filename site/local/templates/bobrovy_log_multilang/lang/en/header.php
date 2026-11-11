@@ -1,0 +1,47 @@
+<?
+$MESS["zima"] = "Winter";	
+$MESS["leto"] = "Summer";	
+$MESS["tempr"] = "WEATHER<BR>IN THE FUNPARK";	
+$MESS["webcam"] = "Webcams";	
+$MESS["services"] = "Services and Prices";	
+$MESS["schedule"] = "Schedule";	
+$MESS["top_menu"] = "top_en";
+$MESS["left_menu"] = "left_en";
+$MESS["info_service"] = "Information service";
+$MESS["rules"] = "Visiting rules";
+$MESS["know_more"] = "More";
+$MESS["cookies_info"] = 'About Cookies<br>
+We use Cookies to make your visiting our web-site maximum comfort. If don’t change your setting, you’ll get all the Cookies from the Funpark “Bobrovy Log” site. Click “I Accept” button to hide this message. Of course, you can change Cookies settings anytime. For more details click the link <a href="/cookies-policy/">Learn more</a>';
+$MESS["accept"] = "Accept";
+$MESS["scheme"] = "How to get";
+$MESS["social"] = "Social";
+$MESS["mission"] = "Mission";
+$MESS["history"] = "History";
+$MESS["security"] = "Security";
+$MESS["web_cam"] = "Webcams";
+$MESS["contacts"] = "Contacts";
+$MESS["error_404"] = "Error 404";
+$MESS["about_funpark"] = "About Funpark";
+$MESS["information"] = "Information";
+$MESS["stoimost"] = "price";
+$MESS["routes_map"] = "Ski map";
+$MESS["rejim"] = "Operation time";
+$MESS["today"] = "TODAY";
+$MESS["rejim_br"] = "OPERATION TIME";
+$MESS["visit_rules"] = "Visiting rules";
+$MESS["finpark_full"] = "Funpark Bobrovy log";
+$MESS["finpark_map"] = 'Map of Funpark Bobrovy log';
+$MESS["know_more"] = 'Learn more';
+$MESS["services_short"] = "Services";	
+$MESS["all_services"] = "All services";	
+$MESS["work_time"] = "Work time";	
+$MESS["state"] = "State";	
+$MESS["winter_activities"] = "Winter activities";	
+$MESS["summer_activities"] = "Summer activities";	
+$MESS["leave_request"] = "Leave a request";	
+$MESS["fz"] = 'According to the N 152-Ф3 Federal Law about “Concerning Personal Data” on the date of 27.07.2006 of my own free will and volition I give my consent to “Renons” Ltd., (Funpark “Bobrovy Log”) to process my personal data, give the in the contact form on the web site www.bobrovylog.ru';	
+$MESS["submit_otpravit"] = "Submit";	
+$MESS["form_name"] = "Name";	
+$MESS["form_phone"] = "Phone";	
+
+?>

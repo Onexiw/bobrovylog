@@ -1,0 +1,67 @@
+<?
+$aMenuLinks = Array(
+	Array(
+		"Услуги и цены", 
+		"services/", 
+		Array(), 
+		Array("icon"=>"icon_service"), 
+		"" 
+	),
+	Array(
+		"Расписание", 
+		"raspisanie/", 
+		Array(), 
+		Array("icon"=>"icon_schedule"), 
+		"" 
+	),
+	Array(
+		"Новости", 
+		"news/", 
+		Array(), 
+		Array("icon"=>"icon_now"), 
+		"" 
+	),
+	Array(
+		"Карта фанпарка", 
+		"karta/", 
+		Array(), 
+		Array("icon"=>"icon_map"), 
+		"" 
+	),
+	Array(
+		"События", 
+		"events/", 
+		Array(), 
+		Array("icon"=>"icon_event"), 
+		"" 
+	),
+	Array(
+		"О фанпарке", 
+		"about/", 
+		Array(), 
+		Array("icon"=>"icon_about"), 
+		"" 
+	),
+	Array(
+		"Закупки", 
+		"about/tenders/", 
+		Array(), 
+		Array("icon"=>"icon_zakupki"), 
+		"" 
+	),
+	Array(
+		"кнопка", 
+		"/knopka.php", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Задать вопрос", 
+		"qna/", 
+		Array(), 
+		Array("icon"=>"icon_question"), 
+		"" 
+	)
+);
+?>

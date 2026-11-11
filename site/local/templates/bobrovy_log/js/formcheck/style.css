@@ -1,0 +1,128 @@
+
+/* Стили для формы */
+.form_style p {
+  position: relative;
+	margin: 0;
+}
+.form_style .rcheck {
+  margin-bottom: 10px;
+}
+.form_style p label {
+	font-size: 13px;
+	font-weight: bold;
+	color: #444444;
+	display: block;
+  cursor: pointer;
+}
+.form_style .rcheck label {
+	font-size: 13px;
+	font-weight: normal;
+	color: #444444;
+	display: inline;
+  vertical-align: top;
+}
+.form_style input[type="text"] {
+	position: relative;
+	display: block;
+	border: 1px solid #cfcfcf;
+	font-size: 12px;
+	color: #444444;
+	width: 100%;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	line-height: 36px;
+	padding: 0 15px;
+}
+.form_style input[type="tel"] {
+	position: relative;
+	display: block;
+	border: 1px solid #cfcfcf;
+	font-size: 12px;
+	color: #444444;
+	width: 100%;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	line-height: 36px;
+	padding: 0 15px;
+}
+.form_style textarea {
+	position: relative;
+	display: block;
+	border: 1px solid #cfcfcf;
+	font-size: 12px;
+	color: #444444;
+	width: 100%;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	line-height: 36px;
+	padding: 0 15px;
+	height: 80px;
+}
+.form_style input[type="checkbox"] {
+	display: inline-block;
+  border: 1px solid #cfcfcf;
+  width: 14px;
+  margin: 4px 4px 0 0;
+  vertical-align: top;
+}
+.form_style input:focus {
+	outline: none;
+	border-color: #07a6e6;
+}
+.form_style .btnsubmit {
+	position: relative;
+	display: block;
+	padding: 0;
+	border: 0;
+	box-shadow: none;
+	font-size: 12px;
+	line-height: 36px;
+	background-color: #F2994A;
+	text-align: center;
+	-webkit-border-radius: 18px;
+	-moz-border-radius: 18px;
+	border-radius: 18px;
+	color: #fff;
+	width: 100%;
+	max-width: 290px;
+	margin: 0 auto;
+}
+
+.form_style .btnsubmit:hover {
+	background-color: #EEA96C;
+}
+
+.form_style .btnsubmit:active {
+	background-color: #D48138;
+}
+.form_style input.rf_error {
+  border-color: #d8512d;
+}
+.form_style .rfield_error {
+  display: block;
+  padding: 0px 10px;
+  background-color: #d8512d;
+  color: #fff;
+  font-size: 12px;
+  z-index: 1;
+  position: absolute;
+  top: 0px;
+  left: auto;
+  right: 0px;
+  visibility: hidden;
+}
+.form_style .rcheck .rfield_error {
+  top: 0px;
+  right: 0px;
+}
+.form_style .btnsubmit:focus {
+  outline: none;
+}
+.form_style .btnsubmit.disabled,
+.form_style .btnsubmit.disabled:hover {
+	cursor: default;
+	opacity: .7;
+}

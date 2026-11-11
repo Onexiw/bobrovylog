@@ -1,0 +1,6 @@
+<?
+$sSectionName = "Безопасность";
+$arDirProperties = array(
+
+);
+?>

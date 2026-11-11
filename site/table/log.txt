@@ -1,0 +1,3 @@
+php://input:
+[{"SRC_SYS": "1001", "TYPE": "timeresult", "FirstName": "Aleksey", "LastName": "Petrov", "counrty": "rus", "BIB": "123", "TOKEN": "12345", "rank": "2", "gap": "+2:01.1", "inter": "finish", "time": "10:01.45"}, {"SRC_SYS": "1001", "TYPE": "timeresult", "FirstName": "Oleg", "LastName": "Sidorov", "counrty": "rus", "BIB": "125", "TOKEN": "12345", "rank": "2", "gap": "+1:22.2", "inter": "finish", "time": "10:01.45"}]php://input:
+php://input:
