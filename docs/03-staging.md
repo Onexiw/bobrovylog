@@ -11,11 +11,17 @@
 | База | `sitemanager_stage` (копия прода: 396 таблиц, 191 МБ) |
 | Пользователь БД | `bitrix0` с правами на `sitemanager_stage` |
 | nginx vhost | `/etc/nginx/bx/site_avaliable/s2.conf` + `ssl.s2.conf` (симлинки в `site_enabled/`) |
-| Apache vhost | `/etc/httpd/bx/conf/bx_ext_stage.bobrovylog.ru.conf` (порт 127.0.0.1:8888) |
+| Apache vhost | не используется: staging переведён на nginx + php-fpm 8.1, Apache-виртуалхост удалён 11.11.2026 |
 | Настройки БД | `/home/bitrix/stage/bitrix/.settings.php` → `sitemanager_stage`, `php_interface/dbconn.php` → `$DBName = "sitemanager_stage"` |
 | Домены в БД | `b_lang`: все сайты (`s1`, `dg`, `fa`, `nb`, `nj`, `zh`) переведены на `stage.bobrovylog.ru` |
 | Индексация | `robots.txt` с `Disallow: /` + заголовок `X-Robots-Tag: noindex, nofollow` |
 | Логи | `/var/log/httpd/stage_error.log`, `/var/log/nginx/stage_error.log` |
+
+## PHP 8.1 и маршрутизация staging
+
+- PHP: **php-fpm 8.1.29** на `127.0.0.1:9001` (прод остаётся на mod_php 7.4) — подробности в `docs/05-php8-миграция.md`.
+- nginx staging: `location ~ \.php$ → fastcgi_pass 127.0.0.1:9001`, fallback — **`/bitrix/urlrewrite.php`** (как в штатном маршрутизаторе Битрикса на проде; ранее было `/index.php`, из-за чего битые URL отдавали 200 — soft-404).
+- Паритет с продом: **119 внутренних ссылок — 0 расхождений** по кодам ответов; статика отдаётся nginx напрямую.
 
 ## Проверки
 
