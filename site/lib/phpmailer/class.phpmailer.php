@@ -1,5 +1,5 @@
 <?php
-//модифицирован для того, чтобы обрабатывались длинные адреса стр.821
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ.821
 /**
  * PHPMailer - PHP email creation and transport class.
  * PHP Version 5
@@ -818,7 +818,7 @@ class PHPMailer
         return false;
     }
     
-    //добавленные мной 3 функции, для того, чтобы понять, почему ограничивается число символов в емэйле
+    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ 3 пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     public function ReplyToMod()
     {
         return $this->ReplyTo[0][0];
@@ -2289,7 +2289,7 @@ class PHPMailer
             if (!is_readable($path)) {
                 throw new phpmailerException($this->lang('file_open') . $path, self::STOP_CONTINUE);
             }
-            $magic_quotes = get_magic_quotes_runtime();
+            $magic_quotes = function_exists("get_magic_quotes_runtime") ? get_magic_quotes_runtime() : false;
             if ($magic_quotes) {
                 if (version_compare(PHP_VERSION, '5.3.0', '<')) {
                     set_magic_quotes_runtime(false);
