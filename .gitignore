@@ -22,6 +22,10 @@ site/bitrix/.settings.php
 site/bitrix/.settings_extra.php
 site/bitrix/php_interface/dbconn.php
 
+# Логи в корне сайта (публично доступны — не версионируем и не публикуем)
+site/mx_log.txt
+site/*.log
+
 # Кэш, бэкапы и служебные каталоги Битрикса
 site/bitrix/cache/
 site/bitrix/managed_cache/
