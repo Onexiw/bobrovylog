@@ -10,7 +10,7 @@ function d($str) {
 	}
 }
 
-define("LOG_FILENAME", $_SERVER["DOCUMENT_ROOT"]."/mx_log.txt");
+define("LOG_FILENAME", dirname($_SERVER["DOCUMENT_ROOT"])."/logs/mx_log.txt");
 
 //перебираем все объекты на карте и перегенерим файлы json при добавлении или изменении объектов в инфоблоке "Объекты на карте"
 AddEventHandler("iblock", "OnAfterIBlockElementUpdate", "OnAfterIBlockElementUpdateHandler");
