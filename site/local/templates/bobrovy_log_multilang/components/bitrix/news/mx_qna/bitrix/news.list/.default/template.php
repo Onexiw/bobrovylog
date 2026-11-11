@@ -85,7 +85,7 @@ $this->setFrameMode(true);
 					<div class="qna__item__question__top__date">🗓 <?echo $day.' '.$m[$month].' '.$year?></div>				
 				</div>
 				<div class="qna__item__question__text">
-					<?=$arItem["PROPERTIES"]["QUESTION"]["~VALUE"]["TEXT"]?>
+					<?=(is_array($arItem["PROPERTIES"]["QUESTION"]["~VALUE"]) ? $arItem["PROPERTIES"]["QUESTION"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["QUESTION"]["~VALUE"])?>
 				</div>
 			</div>
 			
@@ -95,7 +95,7 @@ $this->setFrameMode(true);
 				</div>
 				<div class="qna__item__answer__text">
 					<div class="qna__item__answer__top__avatar"></div>
-					<?=$arItem["PROPERTIES"]["ANSWER"]["~VALUE"]["TEXT"]?>
+					<?=(is_array($arItem["PROPERTIES"]["ANSWER"]["~VALUE"]) ? $arItem["PROPERTIES"]["ANSWER"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["ANSWER"]["~VALUE"])?>
 				</div>
 				<div class="qna__item__answer__bottom">
 					<a href="<?=$arItem["DETAIL_PAGE_URL"]?>" class="qna__item__answer__bottom__link">На страницу вопроса</a>

@@ -24,12 +24,12 @@ $this->setFrameMode(true);
 			
 			<div class="vakancy__item_block">
 				<div class="vakancy__item__title">ТРЕБОВАНИЯ К КАНДИДАТАМ</div>
-				<div class="vakancy__item__name"><?=$arItem["PROPERTIES"]["REQIUREMENTS"]["~VALUE"]["TEXT"]?></div>
+				<div class="vakancy__item__name"><?=(is_array($arItem["PROPERTIES"]["REQIUREMENTS"]["~VALUE"]) ? $arItem["PROPERTIES"]["REQIUREMENTS"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["REQIUREMENTS"]["~VALUE"])?></div>
 			</div>
 			
 			<div class="vakancy__item_block">
 				<div class="vakancy__item__title">Условия работы</div>
-				<div class="vakancy__item__name"><?=$arItem["PROPERTIES"]["CONDITIONS"]["~VALUE"]["TEXT"]?></div>
+				<div class="vakancy__item__name"><?=(is_array($arItem["PROPERTIES"]["CONDITIONS"]["~VALUE"]) ? $arItem["PROPERTIES"]["CONDITIONS"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["CONDITIONS"]["~VALUE"])?></div>
 			</div>	
 			
 			<a href="mailto:<?=$arResult["~DESCRIPTION"]?>" class="vakancy__item__link">Отправить резюме</a>

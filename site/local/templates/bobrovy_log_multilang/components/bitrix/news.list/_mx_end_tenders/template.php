@@ -17,13 +17,13 @@ $this->setFrameMode(true);
 	<?foreach($arResult["ITEMS"] as $arItem):?>
 		
 		<div class="konkursi__item">
-			<b><?=$arItem["PROPERTIES"]["FULL_NAME"]["~VALUE"]["TEXT"]?></b>
+			<b><?=(is_array($arItem["PROPERTIES"]["FULL_NAME"]["~VALUE"]) ? $arItem["PROPERTIES"]["FULL_NAME"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["FULL_NAME"]["~VALUE"])?></b>
 			<div class="clear"></div>
 			
 			<div class="clear"></div>	
-			<?if($arItem["PROPERTIES"]["FIRST_TEXT"]["~VALUE"]["TEXT"] != ""):?>
+			<?if((is_array($arItem["PROPERTIES"]["FIRST_TEXT"]["~VALUE"]) ? $arItem["PROPERTIES"]["FIRST_TEXT"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["FIRST_TEXT"]["~VALUE"]) != ""):?>
 				<br>
-				<?=$arItem["PROPERTIES"]["FIRST_TEXT"]["~VALUE"]["TEXT"]?>
+				<?=(is_array($arItem["PROPERTIES"]["FIRST_TEXT"]["~VALUE"]) ? $arItem["PROPERTIES"]["FIRST_TEXT"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["FIRST_TEXT"]["~VALUE"])?>
 			<?endif?>
 
 			<?foreach($arItem["DISPLAY_PROPERTIES"]["FILES"]["FILE_VALUE"] as $f => $arFile):?>
@@ -31,19 +31,19 @@ $this->setFrameMode(true);
 				<a href="<?=$arFile["SRC"]?>" target="_blank"><?=$arFile["DESCRIPTION"]?>.<?=$ext[1]?></a>
 			<?endforeach?>
 				
-			<?if($arItem["PROPERTIES"]["CONTACT"]["~VALUE"]["TEXT"] != ""):?>
+			<?if((is_array($arItem["PROPERTIES"]["CONTACT"]["~VALUE"]) ? $arItem["PROPERTIES"]["CONTACT"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["CONTACT"]["~VALUE"]) != ""):?>
 				<div class="clear"></div>	
 				<br>
 				<b>Контактные данные:</b><br>
 				<div class="konkursi__item__contact">
-				<?=$arItem["PROPERTIES"]["CONTACT"]["~VALUE"]["TEXT"]?>
+				<?=(is_array($arItem["PROPERTIES"]["CONTACT"]["~VALUE"]) ? $arItem["PROPERTIES"]["CONTACT"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["CONTACT"]["~VALUE"])?>
 				</div>
 			<?endif?>
 
 			<div class="clear"></div>	
-			<?if($arItem["PROPERTIES"]["LAST_TEXT"]["~VALUE"]["TEXT"] != ""):?>
+			<?if((is_array($arItem["PROPERTIES"]["LAST_TEXT"]["~VALUE"]) ? $arItem["PROPERTIES"]["LAST_TEXT"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["LAST_TEXT"]["~VALUE"]) != ""):?>
 				<br>
-				<?=$arItem["PROPERTIES"]["LAST_TEXT"]["~VALUE"]["TEXT"]?>
+				<?=(is_array($arItem["PROPERTIES"]["LAST_TEXT"]["~VALUE"]) ? $arItem["PROPERTIES"]["LAST_TEXT"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["LAST_TEXT"]["~VALUE"])?>
 			<?endif?>
 		</div>
 			

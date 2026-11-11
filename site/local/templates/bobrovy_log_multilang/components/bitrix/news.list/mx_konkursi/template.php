@@ -17,7 +17,7 @@ $this->setFrameMode(true);
 	<?foreach($arResult["ITEMS"] as $arItem):?>
 		
 		<div class="konkursi__item">
-			<?=$arItem["PROPERTIES"]["FULL_NAME"]["~VALUE"]["TEXT"]?>
+			<?=(is_array($arItem["PROPERTIES"]["FULL_NAME"]["~VALUE"]) ? $arItem["PROPERTIES"]["FULL_NAME"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["FULL_NAME"]["~VALUE"])?>
 			<div class="clear"></div>
 			<?if($arItem["DISPLAY_PROPERTIES"]["FILES"]["FILE_VALUE"][0]):?>
 			<?foreach($arItem["DISPLAY_PROPERTIES"]["FILES"]["FILE_VALUE"] as $f => $arFile):?>

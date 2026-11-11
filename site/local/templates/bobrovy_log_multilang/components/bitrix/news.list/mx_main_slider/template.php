@@ -38,7 +38,7 @@ $this->setFrameMode(true);
 				  </div>
 				  
 				  <div class="main_slider__block">
-					  <div class="main_slider__item__big_text"><?=LANGUAGE_ID == 'en' ? $arItem["PROPERTIES"]["BIG_TEXT_EN"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["BIG_TEXT"]["~VALUE"]["TEXT"]?></div>
+					  <div class="main_slider__item__big_text"><?=LANGUAGE_ID == 'en' ? (is_array($arItem["PROPERTIES"]["BIG_TEXT_EN"]["~VALUE"]) ? $arItem["PROPERTIES"]["BIG_TEXT_EN"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["BIG_TEXT_EN"]["~VALUE"]) : (is_array($arItem["PROPERTIES"]["BIG_TEXT"]["~VALUE"]) ? $arItem["PROPERTIES"]["BIG_TEXT"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["BIG_TEXT"]["~VALUE"])?></div>
 					  <div class="main_slider__item__big_text_m"><?=LANGUAGE_ID == 'en' ? $arItem["PROPERTIES"]["BIG_TEXT_MOBILE_EN"]["VALUE"] : $arItem["PROPERTIES"]["BIG_TEXT_MOBILE"]["VALUE"]?></div>
 					  
 					  <?if($arItem["PROPERTIES"]["LINK"]["VALUE"] != ''):?>
@@ -46,7 +46,7 @@ $this->setFrameMode(true);
 					  <?else:?>
 					  	<?$nobutton = "nobutton";?>
 					  <?endif?>
-					  <div class="main_slider__item__small_text <?=$nobutton?>"><?=LANGUAGE_ID == 'en' ? $arItem["PROPERTIES"]["SMALL_TEXT_EN"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["SMALL_TEXT"]["~VALUE"]["TEXT"]?></div>
+					  <div class="main_slider__item__small_text <?=$nobutton?>"><?=LANGUAGE_ID == 'en' ? (is_array($arItem["PROPERTIES"]["SMALL_TEXT_EN"]["~VALUE"]) ? $arItem["PROPERTIES"]["SMALL_TEXT_EN"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["SMALL_TEXT_EN"]["~VALUE"]) : (is_array($arItem["PROPERTIES"]["SMALL_TEXT"]["~VALUE"]) ? $arItem["PROPERTIES"]["SMALL_TEXT"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["SMALL_TEXT"]["~VALUE"])?></div>
 					  
 					  
 					  <?if($arItem["PROPERTIES"]["LINK"]["VALUE"] != ''):?>

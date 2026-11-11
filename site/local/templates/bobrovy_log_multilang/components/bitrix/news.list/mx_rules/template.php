@@ -18,7 +18,7 @@ $this->setFrameMode(true);
 		<?//d($arItem)?>
 		<div class="rules__item">
 			<a class="rules__item__label collapsed" role="button" data-toggle="collapse" data-parent="#rules_list" href="#t_<?=$arItem["ID"]?>" aria-expanded="false" aria-controls="t_<?=$arItem["ID"]?>"><span><?=LANGUAGE_ID == "en" ? $arItem["PROPERTIES"]["NAME_ENG"]["VALUE"] : $arItem["NAME"]?></span></a>
-			<div class="rules__item__block collapse" id="t_<?=$arItem["ID"]?>"><?=LANGUAGE_ID == "en" ? $arItem["PROPERTIES"]["TEXT_ENG"]["~VALUE"]["TEXT"] : $arItem["~DETAIL_TEXT"]?></div>			
+			<div class="rules__item__block collapse" id="t_<?=$arItem["ID"]?>"><?=LANGUAGE_ID == "en" ? (is_array($arItem["PROPERTIES"]["TEXT_ENG"]["~VALUE"]) ? $arItem["PROPERTIES"]["TEXT_ENG"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["TEXT_ENG"]["~VALUE"]) : $arItem["~DETAIL_TEXT"]?></div>			
 		</div>
 			
 	<?endforeach;?>

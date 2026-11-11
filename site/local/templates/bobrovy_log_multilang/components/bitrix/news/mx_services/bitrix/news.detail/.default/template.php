@@ -82,16 +82,16 @@ $this->setFrameMode(true);
 	  <div class="service__detail__slider__nav_page">
 			<?if(LANGUAGE_ID != 'en'):?>
 			  <div class="service__detail__slider__nav_page__title">
-				  <?if($arResult["PROPERTIES"]["HTML_NAME"]["~VALUE"]["TEXT"] != ""):?>
-				  	<?=$arResult["PROPERTIES"]["HTML_NAME"]["~VALUE"]["TEXT"]?>
+				  <?if((is_array($arResult["PROPERTIES"]["HTML_NAME"]["~VALUE"]) ? $arResult["PROPERTIES"]["HTML_NAME"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["HTML_NAME"]["~VALUE"]) != ""):?>
+				  	<?=(is_array($arResult["PROPERTIES"]["HTML_NAME"]["~VALUE"]) ? $arResult["PROPERTIES"]["HTML_NAME"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["HTML_NAME"]["~VALUE"])?>
 				  <?else:?>
 					  <?=$arResult["NAME"]?>
 				  <?endif?>			  
 				</div>
 			<?else:?>
 			  <div class="service__detail__slider__nav_page__title">
-				  <?if($arResult["PROPERTIES"]["HTML_NAME_ENG"]["~VALUE"]["TEXT"] != ""):?>
-				  	<?=$arResult["PROPERTIES"]["HTML_NAME_ENG"]["~VALUE"]["TEXT"]?>
+				  <?if((is_array($arResult["PROPERTIES"]["HTML_NAME_ENG"]["~VALUE"]) ? $arResult["PROPERTIES"]["HTML_NAME_ENG"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["HTML_NAME_ENG"]["~VALUE"]) != ""):?>
+				  	<?=(is_array($arResult["PROPERTIES"]["HTML_NAME_ENG"]["~VALUE"]) ? $arResult["PROPERTIES"]["HTML_NAME_ENG"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["HTML_NAME_ENG"]["~VALUE"])?>
 				  <?else:?>
 					  <?=$arResult["PROPERTIES"]["NAME_ENG"]["VALUE"]?>
 				  <?endif?>			  
@@ -161,26 +161,26 @@ if ($USER->IsAdmin()):?>
 					<div class="service__detail_side__work__text">
 						<?if($arResult["PROPERTIES"]["WORK_TIME"]["VALUE"] != ""):?>
 							<div class="service__detail_side__work__text__title">&#9654; Время работы</div>
-							<div class="service__detail_side__work__text__description"><?=$arResult["PROPERTIES"]["WORK_TIME"]["~VALUE"]["TEXT"]?></div>
+							<div class="service__detail_side__work__text__description"><?=(is_array($arResult["PROPERTIES"]["WORK_TIME"]["~VALUE"]) ? $arResult["PROPERTIES"]["WORK_TIME"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["WORK_TIME"]["~VALUE"])?></div>
 						<?endif?>
 					</div>
 				<?else:?>
 					<div class="service__detail_side__work__text">
 						<?if($arResult["PROPERTIES"]["WORK_TIME_ENG"]["VALUE"] != ""):?>
 							<div class="service__detail_side__work__text__title">&#9654; Work time</div>
-							<div class="service__detail_side__work__text__description"><?=$arResult["PROPERTIES"]["WORK_TIME_ENG"]["~VALUE"]["TEXT"]?></div>
+							<div class="service__detail_side__work__text__description"><?=(is_array($arResult["PROPERTIES"]["WORK_TIME_ENG"]["~VALUE"]) ? $arResult["PROPERTIES"]["WORK_TIME_ENG"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["WORK_TIME_ENG"]["~VALUE"])?></div>
 						<?endif?>
 					</div>
 				<?endif?>
 				
 					
 				<?if(LANGUAGE_ID != 'en'):?>
-					<?if($arResult["PROPERTIES"]["ADDITIONAL"]["~VALUE"]["TEXT"] != ""):?>
-						<div class="service__detail_side__additional"><?=$arResult["PROPERTIES"]["ADDITIONAL"]["~VALUE"]["TEXT"]?></div>
+					<?if((is_array($arResult["PROPERTIES"]["ADDITIONAL"]["~VALUE"]) ? $arResult["PROPERTIES"]["ADDITIONAL"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["ADDITIONAL"]["~VALUE"]) != ""):?>
+						<div class="service__detail_side__additional"><?=(is_array($arResult["PROPERTIES"]["ADDITIONAL"]["~VALUE"]) ? $arResult["PROPERTIES"]["ADDITIONAL"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["ADDITIONAL"]["~VALUE"])?></div>
 					<?endif?>
 				<?else:?>
-					<?if($arResult["PROPERTIES"]["ADDITIONAL_ENG"]["~VALUE"]["TEXT"] != ""):?>
-						<div class="service__detail_side__additional"><?=$arResult["PROPERTIES"]["ADDITIONAL_ENG"]["~VALUE"]["TEXT"]?></div>
+					<?if((is_array($arResult["PROPERTIES"]["ADDITIONAL_ENG"]["~VALUE"]) ? $arResult["PROPERTIES"]["ADDITIONAL_ENG"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["ADDITIONAL_ENG"]["~VALUE"]) != ""):?>
+						<div class="service__detail_side__additional"><?=(is_array($arResult["PROPERTIES"]["ADDITIONAL_ENG"]["~VALUE"]) ? $arResult["PROPERTIES"]["ADDITIONAL_ENG"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["ADDITIONAL_ENG"]["~VALUE"])?></div>
 					<?endif?>
 				<?endif?>
 				
@@ -190,7 +190,7 @@ if ($USER->IsAdmin()):?>
 						<div class="service__detail_side__prices">
 							<?//if($arResult["PROPERTIES"]["PRICES"]["VALUE"] != ""):?>
 								<div class="service__detail_side__prices__title">&#9654; Цены</div>
-								<div class="service__detail_side__prices__description"><?=$arResult["PROPERTIES"]["PRICES"]["~VALUE"]["TEXT"]?></div>
+								<div class="service__detail_side__prices__description"><?=(is_array($arResult["PROPERTIES"]["PRICES"]["~VALUE"]) ? $arResult["PROPERTIES"]["PRICES"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["PRICES"]["~VALUE"])?></div>
 							<?//endif?>
 						</div>
 					<?endif?>
@@ -199,7 +199,7 @@ if ($USER->IsAdmin()):?>
 						<div class="service__detail_side__prices">
 							<?//if($arResult["PROPERTIES"]["PRICES"]["VALUE"] != ""):?>
 								<div class="service__detail_side__prices__title">&#9654; Prices</div>
-								<div class="service__detail_side__prices__description"><?=$arResult["PROPERTIES"]["PRICES_ENG"]["~VALUE"]["TEXT"]?></div>
+								<div class="service__detail_side__prices__description"><?=(is_array($arResult["PROPERTIES"]["PRICES_ENG"]["~VALUE"]) ? $arResult["PROPERTIES"]["PRICES_ENG"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["PRICES_ENG"]["~VALUE"])?></div>
 							<?//endif?>
 						</div>
 					<?endif?>
@@ -247,21 +247,21 @@ if ($USER->IsAdmin()):?>
 		
 		<div class="col-xs-12 col-sm-8 service__detail_part">
 		
-			<div class="service__detail__text"><?=LANGUAGE_ID == 'en' ? $arResult["PROPERTIES"]["TEXT_ENG"]["~VALUE"]["TEXT"] : $arResult["~DETAIL_TEXT"]?></div>
+			<div class="service__detail__text"><?=LANGUAGE_ID == 'en' ? (is_array($arResult["PROPERTIES"]["TEXT_ENG"]["~VALUE"]) ? $arResult["PROPERTIES"]["TEXT_ENG"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["TEXT_ENG"]["~VALUE"]) : $arResult["~DETAIL_TEXT"]?></div>
 			
 			
 			<?if(LANGUAGE_ID != 'en'): //скрывающийся текст?>
 
 				<?if($arResult["PROPERTIES"]["SHOW_TITLE"]["VALUE"] != ""):?>
 					<a class="service__detail__show_title collapsed" data-toggle="collapse" href="#show_text" aria-expanded="false" aria-controls="show_text"><?=$arResult["PROPERTIES"]["SHOW_TITLE"]["VALUE"]?></a>
-					<div class="collapse service__detail__show_text" id="show_text"><?=$arResult["PROPERTIES"]["SHOW_TEXT"]["~VALUE"]["TEXT"]?></div>
+					<div class="collapse service__detail__show_text" id="show_text"><?=(is_array($arResult["PROPERTIES"]["SHOW_TEXT"]["~VALUE"]) ? $arResult["PROPERTIES"]["SHOW_TEXT"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["SHOW_TEXT"]["~VALUE"])?></div>
 				<?endif?>
 
 			<?else:?>
 
 				<?if($arResult["PROPERTIES"]["SHOW_TITLE_ENG"]["VALUE"] != ""):?>
 					<a class="service__detail__show_title collapsed" data-toggle="collapse" href="#show_text" aria-expanded="false" aria-controls="show_text"><?=$arResult["PROPERTIES"]["SHOW_TITLE_ENG"]["VALUE"]?></a>
-					<div class="collapse service__detail__show_text" id="show_text"><?=$arResult["PROPERTIES"]["SHOW_TEXT_ENG"]["~VALUE"]["TEXT"]?></div>
+					<div class="collapse service__detail__show_text" id="show_text"><?=(is_array($arResult["PROPERTIES"]["SHOW_TEXT_ENG"]["~VALUE"]) ? $arResult["PROPERTIES"]["SHOW_TEXT_ENG"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["SHOW_TEXT_ENG"]["~VALUE"])?></div>
 				<?endif?>
 			
 			<?endif?>

@@ -181,13 +181,13 @@ function OnAfterIBlockElementUpdateHandler(&$arFields) {
 				$services = array();
 				$des = '';
 
-							$txt1 = str_replace("\"","'",$arProps["TEXT_ENG"]["~VALUE"]["TEXT"]);
+							$txt1 = str_replace("\"","'",(is_array($arProps["TEXT_ENG"]["~VALUE"]) ? $arProps["TEXT_ENG"]["~VALUE"]["TEXT"] : $arProps["TEXT_ENG"]["~VALUE"]));
 /*
 							$txt1 = str_replace("<br>", '\n',$txt1);
 							$txt1 = str_replace("\n", '',$txt1);
 							$txt1 = str_replace("\r", '',$txt1);
 */
-							if($arProps["TEXT_ENG"]["~VALUE"]["TEXT"] != '') {
+							if((is_array($arProps["TEXT_ENG"]["~VALUE"]) ? $arProps["TEXT_ENG"]["~VALUE"]["TEXT"] : $arProps["TEXT_ENG"]["~VALUE"]) != '') {
 								$des .= "<div class='map_bubble__list__description'>".$txt1."</div>";
 							}
 
@@ -418,13 +418,13 @@ function OnAfterIBlockElementUpdateHandler(&$arFields) {
 				$services = array();
 				$des = '';
 
-							$txt1 = str_replace("\"","'",$arProps["TEXT_ENG"]["~VALUE"]["TEXT"]);
+							$txt1 = str_replace("\"","'",(is_array($arProps["TEXT_ENG"]["~VALUE"]) ? $arProps["TEXT_ENG"]["~VALUE"]["TEXT"] : $arProps["TEXT_ENG"]["~VALUE"]));
 /*
 							$txt1 = str_replace("<br>", '\n',$txt1);
 							$txt1 = str_replace("\n", '',$txt1);
 							$txt1 = str_replace("\r", '',$txt1);
 */
-							if($arProps["TEXT_ENG"]["~VALUE"]["TEXT"] != '') {
+							if((is_array($arProps["TEXT_ENG"]["~VALUE"]) ? $arProps["TEXT_ENG"]["~VALUE"]["TEXT"] : $arProps["TEXT_ENG"]["~VALUE"]) != '') {
 								$des .= "<div class='map_bubble__list__description'>".$txt1."</div>";
 							}
 

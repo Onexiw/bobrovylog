@@ -80,7 +80,7 @@ $this->setFrameMode(true);
 			
 			<?if($arResult["PROPERTIES"]["SHOW_TITLE"]["VALUE"] != ""):?>
 				<a class="service__detail__show_title collapsed" data-toggle="collapse" href="#show_text" aria-expanded="false" aria-controls="show_text"><?=$arResult["PROPERTIES"]["SHOW_TITLE"]["VALUE"]?></a>
-				<div class="collapse service__detail__show_text" id="show_text"><?=$arResult["PROPERTIES"]["SHOW_TEXT"]["~VALUE"]["TEXT"]?></div>
+				<div class="collapse service__detail__show_text" id="show_text"><?=(is_array($arResult["PROPERTIES"]["SHOW_TEXT"]["~VALUE"]) ? $arResult["PROPERTIES"]["SHOW_TEXT"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["SHOW_TEXT"]["~VALUE"])?></div>
 			<?endif?>
 			
 			<?if($arResult["PROPERTIES"]["TABLES"]["VALUE"] != ""):?>

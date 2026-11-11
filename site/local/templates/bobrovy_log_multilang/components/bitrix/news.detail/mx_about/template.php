@@ -50,10 +50,10 @@ $this->setFrameMode(true);
 		<div class="service__detail_side_wrapper">
 
 			<div class="service__detail_side__prices">
-				<?if($arResult["PROPERTIES"]["SIDEBAR"]["~VALUE"]["TEXT"] != '' || $arResult["PROPERTIES"]["SIDEBAR_ENG"]["~VALUE"]["TEXT"] !=""):?>
+				<?if((is_array($arResult["PROPERTIES"]["SIDEBAR"]["~VALUE"]) ? $arResult["PROPERTIES"]["SIDEBAR"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["SIDEBAR"]["~VALUE"]) != '' || (is_array($arResult["PROPERTIES"]["SIDEBAR_ENG"]["~VALUE"]) ? $arResult["PROPERTIES"]["SIDEBAR_ENG"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["SIDEBAR_ENG"]["~VALUE"]) !=""):?>
 					<div class="service__detail_side__prices__title">▶ <?=GetMessage("information")?></div>
 					<div class="service__detail_side__prices__description">
-						<?=LANGUAGE_ID == 'en' ? $arResult["PROPERTIES"]["SIDEBAR_ENG"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["SIDEBAR"]["~VALUE"]["TEXT"]?>
+						<?=LANGUAGE_ID == 'en' ? (is_array($arResult["PROPERTIES"]["SIDEBAR_ENG"]["~VALUE"]) ? $arResult["PROPERTIES"]["SIDEBAR_ENG"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["SIDEBAR_ENG"]["~VALUE"]) : (is_array($arResult["PROPERTIES"]["SIDEBAR"]["~VALUE"]) ? $arResult["PROPERTIES"]["SIDEBAR"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["SIDEBAR"]["~VALUE"])?>
 					</div>
 				<?endif?>
 			</div>
@@ -64,7 +64,7 @@ $this->setFrameMode(true);
 	<div class="col-xs-12 col-sm-8 service__detail_part">
 	
 		<div class="service__detail__text">
-			<?=LANGUAGE_ID == 'en' ? $arResult["PROPERTIES"]["TEXT_ENG"]["~VALUE"]["TEXT"] : $arResult["~DETAIL_TEXT"]?>		
+			<?=LANGUAGE_ID == 'en' ? (is_array($arResult["PROPERTIES"]["TEXT_ENG"]["~VALUE"]) ? $arResult["PROPERTIES"]["TEXT_ENG"]["~VALUE"]["TEXT"] : $arResult["PROPERTIES"]["TEXT_ENG"]["~VALUE"]) : $arResult["~DETAIL_TEXT"]?>		
 		</div>
 		<div class="clear"></div>
 	</div>

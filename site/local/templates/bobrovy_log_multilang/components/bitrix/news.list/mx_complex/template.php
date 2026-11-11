@@ -28,7 +28,7 @@ $this->setFrameMode(true);
 			    </div>  
 
 	        <div class="complex__item__info">
-		       	<div class="complex__item__info__text"><?=LANGUAGE_ID == "en" ? $arItem["PROPERTIES"]["TEXT_ENG"]["~VALUE"]["TEXT"] :$arItem["PREVIEW_TEXT"]?></div>
+		       	<div class="complex__item__info__text"><?=LANGUAGE_ID == "en" ? (is_array($arItem["PROPERTIES"]["TEXT_ENG"]["~VALUE"]) ? $arItem["PROPERTIES"]["TEXT_ENG"]["~VALUE"]["TEXT"] : $arItem["PROPERTIES"]["TEXT_ENG"]["~VALUE"]) :$arItem["PREVIEW_TEXT"]?></div>
 		       	<div class="complex__item__info__services">
 			       	<div class="row">
 				       	<?$s=0;?>
