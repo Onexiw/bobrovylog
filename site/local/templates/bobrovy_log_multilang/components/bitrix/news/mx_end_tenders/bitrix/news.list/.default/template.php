@@ -21,15 +21,29 @@ $this->setFrameMode(true);
 <div class="col-xs-12 col-md-8 <?=$hide?>">
 	<div class="konkursi_list" id="konkursi_list">
 	<?foreach($arResult["ITEMS"] as $arItem):?>
+		<?
+		// PHP 8: значения свойств могут быть строкой, а не массивом ["~VALUE"]["TEXT"].
+		$mxPropText = function ($code) use ($arItem) {
+			$v = $arItem["PROPERTIES"][$code]["~VALUE"] ?? "";
+			if (is_array($v)) {
+				return (string)($v["TEXT"] ?? (string)reset($v));
+			}
+			return (string)$v;
+		};
+		$fullName = $mxPropText("FULL_NAME");
+		$firstText = $mxPropText("FIRST_TEXT");
+		$contactText = $mxPropText("CONTACT");
+		$lastText = $mxPropText("LAST_TEXT");
+		?>
 		
 		<div class="konkursi__item">
-			<b><?=$arItem["PROPERTIES"]["FULL_NAME"]["~VALUE"]["TEXT"]?></b>
+			<b><?=$fullName?></b>
 			<div class="clear"></div>
 			
 			<div class="clear"></div>	
-			<?if($arItem["PROPERTIES"]["FIRST_TEXT"]["~VALUE"]["TEXT"] != ""):?>
+			<?if($firstText != ""):?>
 				<br>
-				<?=$arItem["PROPERTIES"]["FIRST_TEXT"]["~VALUE"]["TEXT"]?>
+				<?=$firstText?>
 			<?endif?>
 			
 			<?if($arItem["DISPLAY_PROPERTIES"]["FILES"]["FILE_VALUE"] != ''):?>
@@ -46,19 +60,19 @@ $this->setFrameMode(true);
 			<?endif?>
 			
 			
-			<?if($arItem["PROPERTIES"]["CONTACT"]["~VALUE"]["TEXT"] != ""):?>
+			<?if($contactText != ""):?>
 				<div class="clear"></div>	
 				<br>
 				<b>Контактные данные:</b><br>
 				<div class="konkursi__item__contact">
-				<?=$arItem["PROPERTIES"]["CONTACT"]["~VALUE"]["TEXT"]?>
+				<?=$contactText?>
 				</div>
 			<?endif?>
 
 			<div class="clear"></div>	
-			<?if($arItem["PROPERTIES"]["LAST_TEXT"]["~VALUE"]["TEXT"] != ""):?>
+			<?if($lastText != ""):?>
 				<br>
-				<?=$arItem["PROPERTIES"]["LAST_TEXT"]["~VALUE"]["TEXT"]?>
+				<?=$lastText?>
 			<?endif?>
 		</div>
 			

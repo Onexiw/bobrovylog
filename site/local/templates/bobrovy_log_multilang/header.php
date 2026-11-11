@@ -190,7 +190,11 @@ _tmr.push({id: "3788617", type: "pageView", start: (new Date()).getTime()});
 $showPanel = false;
 $userGroup = $USER->GetUserGroupArray();
 $serializeGroup = COption::GetOptionString("main", "show_panel_for_users");
-$group = unserialize($serializeGroup);
+// PHP 8: unserialize() пустой строки возвращает false, а in_array(false) — фатальная ошибка.
+$group = (is_string($serializeGroup) && $serializeGroup !== '') ? @unserialize($serializeGroup) : array();
+if (!is_array($group)) {
+    $group = array();
+}
 foreach ($userGroup as $val) {
     if (in_array("G" . $val, $group)) {
         $showPanel = true;
