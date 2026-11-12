@@ -6263,8 +6263,11 @@ border-radius: 999px;}
 		width: 100%;
 		max-width: 290px;
 		text-align: center;
-		padding: 0 15px 0 35px;
+		padding: 0 15px;
 	}
+		.header__menu__block__info__skipass::before {
+		    display: none; /* на мобильной версии без иконки */
+		}
 	.header__menu__block__info {
     position: relative;
     display: block;
