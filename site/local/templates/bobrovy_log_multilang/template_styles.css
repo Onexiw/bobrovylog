@@ -5062,6 +5062,8 @@ border-radius: 999px;}
 
 
 @media (max-width: 768px) {
+    .container_tbank .link_tbank { display: block; }
+
     .mobile_cameras {
         display: block;
     }
@@ -5768,6 +5770,7 @@ border-radius: 999px;}
     position: absolute;
     left: 30px;
     bottom: 175px;
+    overflow: hidden;
 }
 /*десктоп*/
 .link_tbank {
@@ -5780,14 +5783,13 @@ border-radius: 999px;}
     display: block;
 }
 
-.link_tbank_mobile{
-    display:none;
+.link_tbank_mobile{  
+    display: none;
 }
 /* Картинка баннера Т-Банка */
-.container_tbank { overflow: hidden; }
-.container_tbank .link_tbank,
-.container_tbank .link_tbank_mobile { padding: 0; }
+.container_tbank .link_tbank { padding: 0; display: block; }
 .container_tbank img { display: block; width: 100%; height: auto; }
+
 .rasp_title__item, .item-lesson {
     height: clamp(100px, 14vh, 300px) !important; 
 }
@@ -6174,10 +6176,11 @@ border-radius: 999px;}
         background: #ffdd2d;
         margin: 30px auto 0 auto;
         border-radius: 17px;
-        width: 245px;
+        width: 220px;
         text-align: center;
         cursor: pointer;
         position: static;
+        overflow: hidden;
     }
 
     .link_tbank{
