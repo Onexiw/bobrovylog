@@ -5763,8 +5763,10 @@ border-radius: 999px;}
 .container_tbank {
     font-family: 'Tinkoff_sans';
     background: #ffdd2d;
-    border-radius: 17px;
-    width: 145px;
+    border-radius: 30px;
+    width: 178px; /* как кнопка «Купить билет» */
+    padding: 5px;
+    box-sizing: border-box;
     text-align: center;
     cursor: pointer;
     position: absolute;
@@ -5788,7 +5790,7 @@ border-radius: 999px;}
 }
 /* Картинка баннера Т-Банка */
 .container_tbank .link_tbank { padding: 0; display: block; }
-.container_tbank img { display: block; width: 100%; height: auto; }
+.container_tbank img { display: block; width: 100%; height: auto; border-radius: 25px; }
 
 .rasp_title__item, .item-lesson {
     height: clamp(100px, 14vh, 300px) !important; 
@@ -6175,8 +6177,11 @@ border-radius: 999px;}
         display: block;
         background: #ffdd2d;
         margin: 30px auto 0 auto;
-        border-radius: 17px;
-        width: 220px;
+        border-radius: 30px;
+        width: 100%;
+        max-width: 290px; /* как мобильная кнопка «Купить билет» */
+        padding: 5px;
+        box-sizing: border-box;
         text-align: center;
         cursor: pointer;
         position: static;
