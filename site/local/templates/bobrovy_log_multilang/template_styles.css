@@ -5783,6 +5783,11 @@ border-radius: 999px;}
 .link_tbank_mobile{
     display:none;
 }
+/* Картинка баннера Т-Банка */
+.container_tbank { overflow: hidden; }
+.container_tbank .link_tbank,
+.container_tbank .link_tbank_mobile { padding: 0; }
+.container_tbank img { display: block; width: 100%; height: auto; }
 .rasp_title__item, .item-lesson {
     height: clamp(100px, 14vh, 300px) !important; 
 }

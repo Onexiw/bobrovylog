@@ -530,10 +530,10 @@
                 </div>
 
             </div>
-			<!--<div class="container_tbank">
-                <a href="https://market.bobrovylog.ru/?erid=2RanymZDkh6" class="link_tbank"><img alt="Кэшбэк 10% Т-Банк*" src="/images/Frame 2 (1).svg"></a>
-				<a href="https://market.bobrovylog.ru/?erid=2RanymZDkh6" class="link_tbank_mobile"><img alt="Кэшбэк 10% Т-Банк*" src="/images/Frame 2 (1).svg" width=70%></a>
-            </div> -->
+			<div class="container_tbank">
+                <a href="https://market.bobrovylog.ru/?erid=2RanymZDkh6" class="link_tbank"><img alt="Кэшбэк 10% Т-Банк*" src="/images/tbank-cashback-10.webp"></a>
+				<a href="https://market.bobrovylog.ru/?erid=2RanymZDkh6" class="link_tbank_mobile"><img alt="Кэшбэк 10% Т-Банк*" src="/images/tbank-cashback-10.webp"></a>
+            </div>
 
             <div class="header__menu__block__info">
                 <div class="row">
