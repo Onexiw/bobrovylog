@@ -590,33 +590,47 @@ AddEventHandler("iblock", "OnAfterIBlockElementAdd", "SortUploadedPhoto");
 function SortUploadedPhoto($arFields) {
   global $APPLICATION;
   CModule::IncludeModule('iblock');
-		
-	$morePhoto = CIBlockElement::GetProperty($arFields['IBLOCK_ID'],$arFields['ID'],'sort', 'asc',array('CODE'=>'PHOTOS')); 
-	while ($phot = $morePhoto->GetNext()) {
-		$mx_arFile = CFile::GetFileArray($phot["VALUE"]);		
-		//AddMessage2Log(var_export($mx_arFile,true));
-		$newMorePhoto[$mx_arFile["ORIGINAL_NAME"]] = $phot["VALUE"];
-	}
-	//AddMessage2Log(var_export($newMorePhoto,true));
-	ksort($newMorePhoto);
-	//AddMessage2Log(var_export($newMorePhoto,true));
 
-	foreach($newMorePhoto as $p => $arUnit) {
-		$rightPhoto[$p]["VALUE"] = $arUnit;
-		$rightPhoto[$p]["DESCRIPTION"] = "";
-	}
+  $newMorePhoto = array();
+  $rightPhoto = array();
 
-	//AddMessage2Log(var_export($rightPhoto,true));
+  if (empty($arFields['ID']) || empty($arFields['IBLOCK_ID'])) {
+      return;
+  }
 
+  $morePhoto = CIBlockElement::GetProperty($arFields['IBLOCK_ID'], $arFields['ID'], 'sort', 'asc', array('CODE' => 'PHOTOS'));
+  while ($phot = $morePhoto->GetNext()) {
+      if (empty($phot['VALUE'])) {
+          continue;
+      }
+      $mx_arFile = CFile::GetFileArray($phot['VALUE']);
+      if (!is_array($mx_arFile) || empty($mx_arFile['ORIGINAL_NAME'])) {
+          continue;
+      }
+      $newMorePhoto[$mx_arFile['ORIGINAL_NAME']] = $phot['VALUE'];
+  }
 
-	//записываем массив в новом порядке
-/*
-	CIBlockElement::SetPropertyValuesEx(
+  // Нет фотографий — сортировать нечего.
+  // На PHP 8 ksort(null) бросает TypeError, поэтому выходим заранее.
+  if (empty($newMorePhoto)) {
+      return;
+  }
+
+  ksort($newMorePhoto);
+
+  foreach ($newMorePhoto as $p => $arUnit) {
+      $rightPhoto[$p]['VALUE'] = $arUnit;
+      $rightPhoto[$p]['DESCRIPTION'] = '';
+  }
+
+  // записываем массив в новом порядке
+  /*
+  CIBlockElement::SetPropertyValuesEx(
                         $arFields['ID'],
                         $arFields['IBLOCK_ID'],
                         array('PHOTOS' => $rightPhoto)
                     );
-*/
+  */
 }
 
 
