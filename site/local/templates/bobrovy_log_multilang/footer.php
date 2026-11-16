@@ -534,7 +534,7 @@
                 <?if(LANGUAGE_ID == 'ru'):?>
                 <a href="#tbank-disclaimer" class="tbank-disclaimer-star" title="Условия акции" aria-label="Условия акции Т-Банка">*</a>
                 <?endif?>
-                <a href="https://bobrovylog.ru/?erid=2RanymZDkh6" class="link_tbank"><img alt="Кэшбэк 10% Т-Банк*" src="/images/tbank-cashback-10-rounded.webp"></a>
+                <a href="#tbank-disclaimer" class="link_tbank" title="Условия акции Т-Банка" aria-label="Условия акции Т-Банка"><img alt="Кэшбэк 10% Т-Банк*" src="/images/tbank-cashback-10-rounded.webp"></a>
             </div>
 
             <div class="header__menu__block__info">

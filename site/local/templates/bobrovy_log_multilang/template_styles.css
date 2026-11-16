@@ -5789,7 +5789,20 @@ border-radius: 999px;}
 }
 /* Картинка баннера Т-Банка */
 .container_tbank .link_tbank { padding: 0; display: block; }
-.container_tbank img { display: block; width: 100%; height: auto; border-radius: 25px; }
+.container_tbank img { display: block; width: 100%; height: auto; border-radius: 25px; transition: transform .25s ease, filter .25s ease; }
+
+/* Эффект наведения/нажатия на картинку баннера */
+.container_tbank .link_tbank:hover img,
+.container_tbank .link_tbank:focus img {
+    filter: brightness(0.92);
+    transform: scale(0.985);
+}
+.container_tbank .link_tbank:active img {
+    filter: brightness(0.85);
+    transform: scale(0.97);
+}
+/* Плавная прокрутка для якорных ссылок */
+html { scroll-behavior: smooth; }
 
 /* Звёздочка-ссылка на дисклеймер Т-Банка */
 .container_tbank { position: absolute; }
