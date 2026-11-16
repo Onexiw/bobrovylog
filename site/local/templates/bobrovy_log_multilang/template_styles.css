@@ -6233,6 +6233,8 @@ html { scroll-behavior: smooth; }
         text-align: center;
         cursor: pointer;
         position: relative;
+        left: auto;
+        bottom: auto;
     }
 
     .link_tbank{
