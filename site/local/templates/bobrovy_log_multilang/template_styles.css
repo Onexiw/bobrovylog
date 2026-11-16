@@ -5772,7 +5772,6 @@ border-radius: 999px;}
     position: absolute;
     left: 30px;
     bottom: 175px;
-    overflow: hidden;
 }
 /*десктоп*/
 .link_tbank {
@@ -5791,6 +5790,40 @@ border-radius: 999px;}
 /* Картинка баннера Т-Банка */
 .container_tbank .link_tbank { padding: 0; display: block; }
 .container_tbank img { display: block; width: 100%; height: auto; border-radius: 25px; }
+
+/* Звёздочка-ссылка на дисклеймер Т-Банка */
+.container_tbank { position: absolute; }
+.tbank-disclaimer-star {
+    position: absolute;
+    top: -22px;
+    right: 0;
+    z-index: 5;
+    font-family: 'Tinkoff_sans', 'Cera Pro', sans-serif;
+    font-size: 22px;
+    line-height: 1;
+    font-weight: 700;
+    color: #751F66;
+    text-decoration: none;
+    padding: 0 4px;
+}
+.tbank-disclaimer-star:hover,
+.tbank-disclaimer-star:focus {
+    color: #914083;
+    text-decoration: none;
+}
+
+/* Дисклеймер Т-Банка в подвале */
+#tbank-disclaimer h5 {
+    margin: 12px 0 0;
+    max-width: 760px;
+    font-family: 'Cera Pro', sans-serif;
+    font-size: 11px;
+    line-height: 1.5;
+    font-weight: 400;
+    text-transform: none;
+    color: #fff;
+}
+#tbank-disclaimer { scroll-margin-top: 80px; }
 
 .rasp_title__item, .item-lesson {
     height: clamp(100px, 14vh, 300px) !important; 
@@ -6171,6 +6204,8 @@ border-radius: 999px;}
 
 
 @media (max-width: 768px) {
+    .tbank-disclaimer-star { top: -18px; right: 6px; font-size: 18px; }
+    #tbank-disclaimer h5 { font-size: 10px; line-height: 1.45; }
     /*рекламный баннер Тинькофф*/
     .container_tbank {
         font-family: 'Tinkoff_sans';
@@ -6184,8 +6219,7 @@ border-radius: 999px;}
         box-sizing: border-box;
         text-align: center;
         cursor: pointer;
-        position: static;
-        overflow: hidden;
+        position: relative;
     }
 
     .link_tbank{

@@ -106,13 +106,24 @@ $this->setFrameMode(true);
 	</div>
 	<div class="clear"></div>
 
-	<?if($arResult["DISPLAY_PROPERTIES"]["PHOTOS"]["VALUE"] != ''):?>
+	<?if(!empty($arResult["DISPLAY_PROPERTIES"]["PHOTOS"]["VALUE"])):?>
+		<?
+		$arPhotos = $arResult["DISPLAY_PROPERTIES"]["PHOTOS"]["FILE_VALUE"];
+		// PHP 8: для одного файла Bitrix отдаёт плоский массив (SRC, ID, ...), для нескольких — список массивов
+		if (is_array($arPhotos) && isset($arPhotos["SRC"])) {
+			$arPhotos = array($arPhotos);
+		}
+		if (!is_array($arPhotos)) {
+			$arPhotos = array();
+		}
+		?>
 		<div class="col-xs-12">
 			<div class="news__detail__gallery">
-				<?foreach($arResult["DISPLAY_PROPERTIES"]["PHOTOS"]["FILE_VALUE"] as $g => $arPhoto):?>
+				<?foreach($arPhotos as $g => $arPhoto):?>
+					<?if(!is_array($arPhoto) || empty($arPhoto["SRC"])) continue;?>
 					<a data-fancybox="gallery" href="<?=$arPhoto["SRC"]?>" class="news__detail__gallery__picture">
-						<?$file = CFile::ResizeImageGet($arPhoto["ID"], array('width'=>800, 'height'=>800), BX_RESIZE_IMAGE_PROPORTIONAL, true); ?>               
-						<img src="<?=SITE_TEMPLATE_PATH?>/images/loading-512.gif" data-src="<?=$file["src"]?>" class="lazyload news__detail__gallery__picture__img">
+						<?$file = CFile::ResizeImageGet($arPhoto["ID"], array('width'=>800, 'height'=>800), BX_RESIZE_IMAGE_PROPORTIONAL, true); ?>
+						<img src="<?=SITE_TEMPLATE_PATH?>/images/loading-512.gif" data-src="<?=!empty($file["src"]) ? $file["src"] : $arPhoto["SRC"]?>" class="lazyload news__detail__gallery__picture__img">
 					</a>
 				<?endforeach?>
 			</div>
