@@ -439,7 +439,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-12 col-md-5">
-                    <div class="footer__bottom__address" id="tbank-disclaimer">
+                    <div class="footer__bottom__address" id="tbank-disclaimer" data-erid="2RanymZDkh6" erid="2RanymZDkh6">
                         <?$APPLICATION->IncludeComponent(
                             "bitrix:main.include",
                             "",
@@ -534,7 +534,7 @@
                 <?if(LANGUAGE_ID == 'ru'):?>
                 <a href="#tbank-disclaimer" class="tbank-disclaimer-star" title="Условия акции" aria-label="Условия акции Т-Банка">*</a>
                 <?endif?>
-                <a href="#tbank-disclaimer" class="link_tbank" title="Условия акции Т-Банка" aria-label="Условия акции Т-Банка"><img alt="Кэшбэк 10% Т-Банк*" src="/images/tbank-cashback-10-rounded.webp"></a>
+                <a href="#tbank-disclaimer" class="link_tbank" title="Условия акции Т-Банка" aria-label="Условия акции Т-Банка" data-erid="2RanymZDkh6" erid="2RanymZDkh6"><img alt="Кэшбэк 10% Т-Банк*" src="/images/tbank-cashback-10-rounded.webp"></a>
             </div>
 
             <div class="header__menu__block__info">
