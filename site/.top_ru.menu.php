@@ -30,7 +30,7 @@ $aMenuLinks = Array(
 	),
 	Array(
 		"Карта фанпарка", 
-		"/karta/karta-fanparka.html", 
+		"/karta/animation/",
 		Array(), 
 		Array("icon"=>"icon_map"), 
 		"" 
